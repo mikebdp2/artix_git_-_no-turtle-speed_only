@@ -2,7 +2,7 @@
 # Maintainer: Dan McGee <dan@archlinux.org>
 
 pkgname=git
-pkgver=2.22.1
+pkgver=2.23.0
 pkgrel=1
 pkgdesc='the fast distributed version control system'
 arch=(x86_64)
@@ -29,7 +29,7 @@ install=git.install
 validpgpkeys=('96E07AF25771955980DAD10020D04E5A713660A7') # Junio C Hamano
 source=("https://www.kernel.org/pub/software/scm/git/git-$pkgver.tar."{xz,sign}
         'git-sysusers.conf')
-sha256sums=('4ce1f93ab77847e9a9d565ee7c94ceadb80ea7d477fe68123f2329f8d4937824'
+sha256sums=('234fa05b6839e92dc300b2dd78c92ec9c0c8d439f65e1d430a7034f60af16067'
             'SKIP'
             '7630e8245526ad80f703fac9900a1328588c503ce32b37b9f8811674fcda4a45')
 
@@ -42,10 +42,10 @@ _make_paths=(
 _make_options=(
   CFLAGS="$CFLAGS"
   LDFLAGS="$LDFLAGS"
-  USE_LIBPCRE2=1
-  NO_CROSS_DIRECTORY_HARDLINKS=1
-  NO_PERL_CPAN_FALLBACKS=1
+  INSTALL_SYMLINKS=1
   MAN_BOLD_LITERAL=1
+  NO_PERL_CPAN_FALLBACKS=1
+  USE_LIBPCRE2=1
 )
 
 build() {
