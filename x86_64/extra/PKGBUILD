@@ -2,7 +2,7 @@
 # Maintainer: Dan McGee <dan@archlinux.org>
 
 pkgname=git
-pkgver=2.32.0
+pkgver=2.33.0
 pkgrel=1
 pkgdesc='the fast distributed version control system'
 arch=('x86_64')
@@ -14,8 +14,7 @@ makedepends=('python' 'libgnome-keyring' 'xmlto' 'asciidoc')
 optdepends=('tk: gitk and git gui'
             'perl-libwww: git svn'
             'perl-term-readkey: git svn and interactive.singlekey setting'
-            'perl-mime-tools: git send-email'
-            'perl-net-smtp-ssl: git send-email TLS support'
+            'perl-io-socket-ssl: git send-email TLS support'
             'perl-authen-sasl: git send-email TLS support'
             'perl-mediawiki-api: git mediawiki support'
             'perl-datetime-format-iso8601: git mediawiki support'
@@ -29,7 +28,7 @@ install=git.install
 validpgpkeys=('96E07AF25771955980DAD10020D04E5A713660A7') # Junio C Hamano
 source=("https://www.kernel.org/pub/software/scm/git/git-$pkgver.tar."{xz,sign}
         'git-sysusers.conf')
-sha256sums=('68a841da3c4389847ecd3301c25eb7e4a51d07edf5f0168615ad6179e3a83623'
+sha256sums=('bf3c6ab5f82e072aad4768f647cfb1ef60aece39855f83f080f9c0222dd20c4f'
             'SKIP'
             '7630e8245526ad80f703fac9900a1328588c503ce32b37b9f8811674fcda4a45')
 
