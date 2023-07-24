@@ -3,7 +3,7 @@
 
 pkgname=git
 pkgver=2.41.0
-pkgrel=1
+pkgrel=2
 pkgdesc='the fast distributed version control system'
 arch=('x86_64')
 url='https://git-scm.com/'
@@ -32,33 +32,32 @@ sha256sums=('e748bafd424cfe80b212cbc6f1bbccc3a47d4862fb1eb7988877750478568040'
             'SKIP'
             '7630e8245526ad80f703fac9900a1328588c503ce32b37b9f8811674fcda4a45')
 
-_make_paths=(
-  prefix='/usr'
-  gitexecdir='/usr/lib/git-core'
-  perllibdir="$(/usr/bin/perl -MConfig -wle 'print $Config{installvendorlib}')"
-)
+_make() {
+  local make_options=(
+    prefix='/usr'
+    gitexecdir='/usr/lib/git-core'
+    perllibdir="$(/usr/bin/perl -MConfig -wle 'print $Config{installvendorlib}')"
 
-_make_options=(
-  CFLAGS="$CFLAGS"
-  LDFLAGS="$LDFLAGS"
-  INSTALL_SYMLINKS=1
-  MAN_BOLD_LITERAL=1
-  NO_PERL_CPAN_FALLBACKS=1
-  USE_LIBPCRE2=1
-)
+    CFLAGS="$CFLAGS"
+    LDFLAGS="$LDFLAGS"
+    INSTALL_SYMLINKS=1
+    MAN_BOLD_LITERAL=1
+    NO_PERL_CPAN_FALLBACKS=1
+    USE_LIBPCRE2=1
+  )
+
+  make "${make_options[@]}" "$@"
+}
 
 build() {
   cd "$srcdir/$pkgname-$pkgver"
 
-  make \
-    "${_make_paths[@]}" \
-    "${_make_options[@]}" \
-    all man
+  _make all man
 
-  make -C contrib/credential/libsecret
-  make -C contrib/subtree "${_make_paths[@]}" all man
-  make -C contrib/mw-to-git "${_make_paths[@]}" all
-  make -C contrib/diff-highlight "${_make_paths[@]}"
+  _make -C contrib/credential/libsecret
+  _make -C contrib/subtree all man
+  _make -C contrib/mw-to-git all
+  _make -C contrib/diff-highlight
 }
 
 check() {
@@ -71,9 +70,7 @@ check() {
   # which is caused by 'git rebase' trying to use builduser's SHELL inside the
   # build chroot (i.e.: /usr/bin/nologin)
   SHELL=/bin/sh \
-  make \
-    "${_make_paths[@]}" \
-    "${_make_options[@]}" \
+  _make \
     NO_SVN_TESTS=y \
     DEFAULT_TEST_TARGET=prove \
     GIT_PROVE_OPTS="$jobs -Q" \
@@ -83,10 +80,8 @@ check() {
 
 package() {
   cd "$srcdir/$pkgname-$pkgver"
-  
-  make \
-    "${_make_paths[@]}" \
-    "${_make_options[@]}" \
+
+  _make \
     DESTDIR="$pkgdir" \
     install install-man
 
@@ -99,11 +94,11 @@ package() {
   # libsecret credentials helper
   install -m 0755 contrib/credential/libsecret/git-credential-libsecret \
       "$pkgdir"/usr/lib/git-core/git-credential-libsecret
-  make -C contrib/credential/libsecret clean
+  _make -C contrib/credential/libsecret clean
   # subtree installation
-  make -C contrib/subtree "${_make_paths[@]}" DESTDIR="$pkgdir" install install-man
+  _make -C contrib/subtree DESTDIR="$pkgdir" install install-man
   # mediawiki installation
-  make -C contrib/mw-to-git "${_make_paths[@]}" DESTDIR="$pkgdir" install
+  _make -C contrib/mw-to-git DESTDIR="$pkgdir" install
   # the rest of the contrib stuff
   find contrib/ -name '.gitignore' -delete
   cp -a ./contrib/* "$pkgdir"/usr/share/git/
