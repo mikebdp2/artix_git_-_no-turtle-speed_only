@@ -2,7 +2,7 @@
 # Maintainer: Dan McGee <dan@archlinux.org>
 
 pkgname=git
-pkgver=2.42.0
+pkgver=2.42.1
 pkgrel=1
 pkgdesc='the fast distributed version control system'
 arch=('x86_64')
@@ -29,11 +29,9 @@ optdepends=('tk: gitk and git gui'
 install=git.install
 validpgpkeys=('96E07AF25771955980DAD10020D04E5A713660A7') # Junio C Hamano
 source=("https://www.kernel.org/pub/software/scm/git/git-$pkgver.tar."{xz,sign}
-        '0001-t6300-fix-match-with-insecure-memory.patch'
         'git-sysusers.conf')
-sha256sums=('3278210e9fd2994b8484dd7e3ddd9ea8b940ef52170cdb606daa94d887c93b0d'
+sha256sums=('8e46fa96bf35a65625d85fde50391e39bc0620d1bb39afb70b96c4a237a1a4f7'
             'SKIP'
-            '5ab2db5faea2b3ba00b6768589b431211b6c6bfd472a2d54556db30403340812'
             '7630e8245526ad80f703fac9900a1328588c503ce32b37b9f8811674fcda4a45')
 
 _make() {
@@ -51,12 +49,6 @@ _make() {
   )
 
   make "${make_options[@]}" "$@"
-}
-
-prepare() {
-  cd "$srcdir/$pkgname-$pkgver"
-
-  patch -Np1 < ../0001-t6300-fix-match-with-insecure-memory.patch
 }
 
 build() {
@@ -112,7 +104,6 @@ package() {
   # the rest of the contrib stuff
   find contrib/ -name '.gitignore' -delete
   cp -a ./contrib/* "$pkgdir"/usr/share/git/
-
 
   # sysusers file
   install -D -m 0644 "$srcdir"/git-sysusers.conf "$pkgdir"/usr/lib/sysusers.d/git.conf
