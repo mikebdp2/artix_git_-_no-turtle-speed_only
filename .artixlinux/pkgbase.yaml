@@ -1,18 +1,18 @@
 ---
 pkgbase:
   name: git
-  version: 2.43.1-1
+  version: 2.43.2-1
   arch:
     - x86_64
   pkgname:
     - git
 actions:
   addRepo: world
-  removeRepo: world-gremlins
-  triggersBuild: false
+  removeRepo: null
+  triggersBuild: true
   triggersRebuild: false
   triggersRepoAdd: true
-  triggersRepoRemove: true
+  triggersRepoRemove: false
   triggersNoCheck: false
 repos:
   system-goblins:
@@ -31,9 +31,9 @@ repos:
     version: null
     packages: []
   world:
-    version: 2.43.1-1
+    version: 2.43.2-1
     packages:
-      - git-2.43.1-1-x86_64.pkg.tar.zst
+      - git-2.43.2-1-x86_64.pkg.tar.zst
   lib32-goblins:
     version: null
     packages: []
