@@ -2,7 +2,7 @@
 # Maintainer: Dan McGee <dan@archlinux.org>
 
 pkgname=git
-pkgver=2.45.2
+pkgver=2.46.0
 pkgrel=1
 pkgdesc='the fast distributed version control system'
 arch=('x86_64')
@@ -30,7 +30,7 @@ install=git.install
 validpgpkeys=('96E07AF25771955980DAD10020D04E5A713660A7') # Junio C Hamano
 source=("https://www.kernel.org/pub/software/scm/git/git-$pkgver.tar."{xz,sign}
         'git-sysusers.conf')
-sha256sums=('51bfe87eb1c02fed1484051875365eeab229831d30d0cec5d89a14f9e40e9adb'
+sha256sums=('7f123462a28b7ca3ebe2607485f7168554c2b10dfc155c7ec46300666ac27f95'
             'SKIP'
             '7630e8245526ad80f703fac9900a1328588c503ce32b37b9f8811674fcda4a45')
 
@@ -104,6 +104,8 @@ package() {
   # the rest of the contrib stuff
   find contrib/ -name '.gitignore' -delete
   cp -a ./contrib/* "$pkgdir"/usr/share/git/
+
+  # git-daemon via systemd socket activation
 
   # sysusers file
   install -D -m 0644 "$srcdir"/git-sysusers.conf "$pkgdir"/usr/lib/sysusers.d/git.conf
