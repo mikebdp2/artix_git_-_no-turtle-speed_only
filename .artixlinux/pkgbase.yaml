@@ -1,7 +1,7 @@
 ---
 pkgbase:
   name: git
-  version: 2.48.0-1
+  version: 2.48.1-1
   arch:
     - x86_64
   pkgname:
@@ -31,9 +31,9 @@ repos:
     version: null
     packages: []
   world:
-    version: 2.48.0-1
+    version: 2.48.1-1
     packages:
-      - git-2.48.0-1-x86_64.pkg.tar.zst
+      - git-2.48.1-1-x86_64.pkg.tar.zst
   lib32-goblins:
     version: null
     packages: []

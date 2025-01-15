@@ -1,8 +1,9 @@
 # Maintainer: Christian Hesse <mail@eworm.de>
-# Maintainer: Dan McGee <dan@archlinux.org>
+# Maintainer: Christian Heusel <gromit@archlinux.org>
+# Contributor: Dan McGee <dan@archlinux.org>
 
 pkgname=git
-pkgver=2.48.0
+pkgver=2.48.1
 pkgrel=1
 pkgdesc='the fast distributed version control system'
 arch=('x86_64')
@@ -14,6 +15,7 @@ makedepends=('python' 'xmlto' 'asciidoc')
 checkdepends=('openssh')
 optdepends=('tk: gitk and git gui'
             'openssh: ssh transport and crypto'
+            'man: show help with `git command --help`'
             'perl-libwww: git svn'
             'perl-term-readkey: git svn and interactive.singlekey setting'
             'perl-io-socket-ssl: git send-email TLS support'
@@ -30,7 +32,7 @@ install=git.install
 validpgpkeys=('96E07AF25771955980DAD10020D04E5A713660A7') # Junio C Hamano
 source=("https://www.kernel.org/pub/software/scm/git/git-$pkgver.tar."{xz,sign}
         'git-sysusers.conf')
-sha256sums=('4803b809c42696b3b8cce6b0ba6de26febe1197f853daf930a484db93c1ad0d5'
+sha256sums=('1c5d545f5dc1eb51e95d2c50d98fdf88b1a36ba1fa30e9ae5d5385c6024f82ad'
             'SKIP'
             '7630e8245526ad80f703fac9900a1328588c503ce32b37b9f8811674fcda4a45')
 
@@ -109,4 +111,8 @@ package() {
 
   # sysusers file
   install -D -m 0644 "$srcdir"/git-sysusers.conf "$pkgdir"/usr/lib/sysusers.d/git.conf
+
+  # zsh completion
+  install -d "$pkgdir"/usr/share/zsh/site-functions/
+  ln -s ../../git/completion/git-completion.zsh "$pkgdir"/usr/share/zsh/site-functions/_git
 }
