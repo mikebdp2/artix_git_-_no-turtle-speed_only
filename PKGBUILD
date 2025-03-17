@@ -4,47 +4,22 @@
 
 pkgbase=git
 pkgname=(git git-zsh-completion)
-pkgver=2.48.1
-pkgrel=2
+pkgver=2.49.0
+pkgrel=1
 pkgdesc='the fast distributed version control system'
 arch=('x86_64')
 url='https://git-scm.com/'
 license=('GPL-2.0-only')
 depends=('curl' 'expat' 'perl' 'perl-error' 'perl-mailtools'
          'openssl' 'pcre2' 'grep' 'shadow' 'zlib')
-makedepends=('python' 'xmlto' 'asciidoc')
+makedepends=('python' 'xmlto' 'asciidoc' 'git')
 checkdepends=('openssh')
-optdepends=('git-zsh-completion: upstream zsh completion'
-            'tk: gitk and git gui'
-            'openssh: ssh transport and crypto'
-            'man: show help with `git command --help`'
-            'perl-libwww: git svn'
-            'perl-term-readkey: git svn and interactive.singlekey setting'
-            'perl-io-socket-ssl: git send-email TLS support'
-            'perl-authen-sasl: git send-email TLS support'
-            'perl-mediawiki-api: git mediawiki support'
-            'perl-datetime-format-iso8601: git mediawiki support'
-            'perl-lwp-protocol-https: git mediawiki https support'
-            'perl-cgi: gitweb (web interface) support'
-            'python: git svn & git p4'
-            'subversion: git svn'
-            'org.freedesktop.secrets: keyring credential helper'
-            'libsecret: libsecret credential helper')
 install=git.install
 validpgpkeys=('96E07AF25771955980DAD10020D04E5A713660A7') # Junio C Hamano
-source=("https://www.kernel.org/pub/software/scm/git/git-$pkgver.tar."{xz,sign}
-        '0001-fetch-set_head.patch'
+source=("git+https://github.com/git/git#tag=v${pkgver}?signed"
         'git-sysusers.conf')
-sha256sums=('1c5d545f5dc1eb51e95d2c50d98fdf88b1a36ba1fa30e9ae5d5385c6024f82ad'
-            'SKIP'
-            '41369207f8f9534e10202eccd1de2118a4bec3e5be3b31d19bee08f593027eaa'
+sha256sums=('a9b498792ddd8a6618c930e3e05546176d6d3649e5cb64c92a87bf9dd4f2a504'
             '7630e8245526ad80f703fac9900a1328588c503ce32b37b9f8811674fcda4a45')
-
-prepare() {
-  cd "$srcdir/$pkgbase-$pkgver"
-
-  patch -Np1 < ../0001-fetch-set_head.patch
-}
 
 _make() {
   local make_options=(
@@ -64,7 +39,7 @@ _make() {
 }
 
 build() {
-  cd "$srcdir/$pkgbase-$pkgver"
+  cd "$pkgbase"
 
   _make all man
 
@@ -75,7 +50,7 @@ build() {
 }
 
 check() {
-  cd "$srcdir/$pkgbase-$pkgver"
+  cd "$pkgbase"
 
   local jobs
   jobs=$(expr "$MAKEFLAGS" : '.*\(-j[0-9]*\).*') || true
@@ -93,7 +68,25 @@ check() {
 }
 
 package_git() {
-  cd "$srcdir/$pkgbase-$pkgver"
+  optdepends=(
+    'git-zsh-completion: upstream zsh completion'
+    'tk: gitk and git gui'
+    'openssh: ssh transport and crypto'
+    'man: show help with `git command --help`'
+    'perl-libwww: git svn'
+    'perl-term-readkey: git svn and interactive.singlekey setting'
+    'perl-io-socket-ssl: git send-email TLS support'
+    'perl-authen-sasl: git send-email TLS support'
+    'perl-mediawiki-api: git mediawiki support'
+    'perl-datetime-format-iso8601: git mediawiki support'
+    'perl-lwp-protocol-https: git mediawiki https support'
+    'perl-cgi: gitweb (web interface) support'
+    'python: git svn & git p4'
+    'subversion: git svn'
+    'org.freedesktop.secrets: keyring credential helper'
+    'libsecret: libsecret credential helper')
+
+  cd "$pkgbase"
 
   _make \
     DESTDIR="$pkgdir" \
