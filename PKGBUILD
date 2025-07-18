@@ -5,7 +5,7 @@
 pkgbase=git
 pkgname=(git git-zsh-completion)
 pkgver=2.50.1
-pkgrel=1
+pkgrel=3
 pkgdesc='the fast distributed version control system'
 arch=('x86_64')
 url='https://git-scm.com/'
@@ -85,7 +85,9 @@ package_git() {
     'python: git svn & git p4'
     'subversion: git svn'
     'org.freedesktop.secrets: keyring credential helper'
-    'libsecret: libsecret credential helper')
+    'libsecret: libsecret credential helper'
+    'less: the default pager for git'
+  )
 
   cd "$pkgbase"
 
