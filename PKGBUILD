@@ -4,8 +4,8 @@
 
 pkgbase=git
 pkgname=(git git-zsh-completion)
-pkgver=2.50.1
-pkgrel=3
+pkgver=2.51.0
+pkgrel=1
 pkgdesc='the fast distributed version control system'
 arch=('x86_64')
 url='https://git-scm.com/'
@@ -18,7 +18,7 @@ install=git.install
 validpgpkeys=('96E07AF25771955980DAD10020D04E5A713660A7') # Junio C Hamano
 source=("git+https://github.com/git/git#tag=v${pkgver}?signed"
         'git-sysusers.conf')
-sha256sums=('dd3397a458716923437a32ce896487a3500ac213aa575cd09d751e2dedab5eb8'
+sha256sums=('307316d3c5c5b13b8cbcdadc2a8bef4c69c0e3a30b7ae1e5bf61525ce7389bee'
             '7630e8245526ad80f703fac9900a1328588c503ce32b37b9f8811674fcda4a45')
 
 _make() {
@@ -46,7 +46,6 @@ build() {
 
   _make -C contrib/credential/libsecret
   _make -C contrib/subtree all man
-  _make -C contrib/mw-to-git all
   _make -C contrib/diff-highlight
 }
 
@@ -107,8 +106,6 @@ package_git() {
   _make -C contrib/credential/libsecret clean
   # subtree installation
   _make -C contrib/subtree DESTDIR="$pkgdir" install install-man
-  # mediawiki installation
-  _make -C contrib/mw-to-git DESTDIR="$pkgdir" install
   # the rest of the contrib stuff
   find contrib/ -name '.gitignore' -delete
   cp -a ./contrib/* "$pkgdir"/usr/share/git/
