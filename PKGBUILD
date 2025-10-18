@@ -4,7 +4,7 @@
 
 pkgbase=git
 pkgname=(git git-zsh-completion)
-pkgver=2.51.0
+pkgver=2.51.1
 pkgrel=1
 pkgdesc='the fast distributed version control system'
 arch=('x86_64')
@@ -18,8 +18,15 @@ install=git.install
 validpgpkeys=('96E07AF25771955980DAD10020D04E5A713660A7') # Junio C Hamano
 source=("git+https://github.com/git/git#tag=v${pkgver}?signed"
         'git-sysusers.conf')
-sha256sums=('307316d3c5c5b13b8cbcdadc2a8bef4c69c0e3a30b7ae1e5bf61525ce7389bee'
+sha256sums=('f53dbc1ee567e38b37427c28eb0accc13f681e63d0d343b2096494f32a295665'
             '7630e8245526ad80f703fac9900a1328588c503ce32b37b9f8811674fcda4a45')
+
+prepare() {
+  cd "$pkgbase"
+
+  # place the socket in /tmp to make the test succeed
+  sed -i '/eval/s|ssh-agent|ssh-agent -T|' t/t7528-signed-commit-ssh.sh
+}
 
 _make() {
   local make_options=(
@@ -77,9 +84,6 @@ package_git() {
     'perl-term-readkey: git svn and interactive.singlekey setting'
     'perl-io-socket-ssl: git send-email TLS support'
     'perl-authen-sasl: git send-email TLS support'
-    'perl-mediawiki-api: git mediawiki support'
-    'perl-datetime-format-iso8601: git mediawiki support'
-    'perl-lwp-protocol-https: git mediawiki https support'
     'perl-cgi: gitweb (web interface) support'
     'python: git svn & git p4'
     'subversion: git svn'
