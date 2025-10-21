@@ -1,10 +1,10 @@
 ---
-version: 2.51.1-1
+version: 2.51.1-2
 pkgbase:
   name: git
   pkgdesc: the fast distributed version control system
   pkgver: 2.51.1
-  pkgrel: 1
+  pkgrel: 2
   url: https://git-scm.com/
   install: git.install
   arch:

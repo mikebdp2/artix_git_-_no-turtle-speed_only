@@ -5,7 +5,7 @@
 pkgbase=git
 pkgname=(git git-zsh-completion)
 pkgver=2.51.1
-pkgrel=1
+pkgrel=2
 pkgdesc='the fast distributed version control system'
 arch=('x86_64')
 url='https://git-scm.com/'
@@ -20,13 +20,6 @@ source=("git+https://github.com/git/git#tag=v${pkgver}?signed"
         'git-sysusers.conf')
 sha256sums=('f53dbc1ee567e38b37427c28eb0accc13f681e63d0d343b2096494f32a295665'
             '7630e8245526ad80f703fac9900a1328588c503ce32b37b9f8811674fcda4a45')
-
-prepare() {
-  cd "$pkgbase"
-
-  # place the socket in /tmp to make the test succeed
-  sed -i '/eval/s|ssh-agent|ssh-agent -T|' t/t7528-signed-commit-ssh.sh
-}
 
 _make() {
   local make_options=(
@@ -59,6 +52,9 @@ build() {
 check() {
   cd "$pkgbase"
 
+  # place the socket in /tmp to make the test succeed
+  sed -i '/eval/s|ssh-agent|ssh-agent -T|' t/t7528-signed-commit-ssh.sh
+
   local jobs
   jobs=$(expr "$MAKEFLAGS" : '.*\(-j[0-9]*\).*') || true
   mkdir -p /dev/shm/git-test
@@ -72,6 +68,9 @@ check() {
     GIT_PROVE_OPTS="$jobs -Q" \
     GIT_TEST_OPTS="--root=/dev/shm/git-test" \
     test
+
+  # undo changes to source dir to no have .dirty in version
+  git restore -- .
 }
 
 package_git() {
