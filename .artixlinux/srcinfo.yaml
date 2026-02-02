@@ -1,10 +1,10 @@
 ---
-version: 2.52.0-2
+version: 2.53.0-1
 pkgbase:
   name: git
   pkgdesc: the fast distributed version control system
-  pkgver: 2.52.0
-  pkgrel: 2
+  pkgver: 2.53.0
+  pkgrel: 1
   url: https://git-scm.com/
   install: git.install
   arch:
@@ -31,12 +31,12 @@ pkgbase:
     - shadow
     - zlib-ng
   source:
-    - git+https://github.com/git/git#tag=v2.52.0?signed
+    - git+https://github.com/git/git#tag=v2.53.0?signed
     - git-sysusers.conf
   validpgpkeys:
     - 96E07AF25771955980DAD10020D04E5A713660A7
   sha256sums:
-    - df1005f4f906b3c097f9a83ca6d68ee84661551082b8056058216b98e1fcad76
+    - 9a01c7ee4b1d39392b1f0216c2548f3de1805bed6976140b0509f24751de0a6f
     - 7630e8245526ad80f703fac9900a1328588c503ce32b37b9f8811674fcda4a45
 pkgname:
   - name: git
@@ -59,4 +59,4 @@ pkgname:
     depends:
       - git
       - zsh
-# generated with artixpkg 0.37.4-1-any
+# generated with artixpkg 0.37.6-1-any
