@@ -55,7 +55,8 @@ check() {
 
   local jobs
   jobs=$(expr "$MAKEFLAGS" : '.*\(-j[0-9]*\).*') || true
-  mkdir -p /dev/shm/git-test
+  rm -rf   /tmp/git-test
+  mkdir -p /tmp/git-test
   # explicitly specify SHELL to avoid a test failure in t/t9903-bash-prompt.sh
   # which is caused by 'git rebase' trying to use builduser's SHELL inside the
   # build chroot (i.e.: /usr/bin/nologin)
@@ -64,7 +65,7 @@ check() {
     NO_SVN_TESTS=y \
     DEFAULT_TEST_TARGET=prove \
     GIT_PROVE_OPTS="$jobs -Q" \
-    GIT_TEST_OPTS="--root=/dev/shm/git-test" \
+    GIT_TEST_OPTS="--root=/tmp/git-test" \
     test
 }
 
