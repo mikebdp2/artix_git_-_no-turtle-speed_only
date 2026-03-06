@@ -17,9 +17,11 @@ checkdepends=('openssh')
 install=git.install
 validpgpkeys=('96E07AF25771955980DAD10020D04E5A713660A7') # Junio C Hamano
 source=("git+https://github.com/git/git#tag=v${pkgver}?signed"
-        'git-sysusers.conf')
+        'git-sysusers.conf'
+        '0002-no-turtle-speed_only.patch')
 sha256sums=('9a01c7ee4b1d39392b1f0216c2548f3de1805bed6976140b0509f24751de0a6f'
-            '7630e8245526ad80f703fac9900a1328588c503ce32b37b9f8811674fcda4a45')
+            '7630e8245526ad80f703fac9900a1328588c503ce32b37b9f8811674fcda4a45'
+            '5ff67e8f6e3490375efc16edb55540785bd3bb97d122d6c8864daa996474f7ee')
 
 _make() {
   local make_options=(
@@ -38,6 +40,11 @@ _make() {
   )
 
   make "${make_options[@]}" "$@"
+}
+
+prepare() {
+  cd "$pkgbase"
+  patch -Np1 -i "$srcdir/0002-no-turtle-speed_only.patch"
 }
 
 build() {

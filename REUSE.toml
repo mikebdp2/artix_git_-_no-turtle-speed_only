@@ -25,6 +25,7 @@ SPDX-License-Identifier = "0BSD"
 [[annotations]]
 path = [
     "0001-fetch-set_head.patch",
+    "0002-no-turtle-speed_only.patch",
 ]
 SPDX-FileCopyrightText = "git contributors"
 SPDX-License-Identifier = "GPL-2.0-only"

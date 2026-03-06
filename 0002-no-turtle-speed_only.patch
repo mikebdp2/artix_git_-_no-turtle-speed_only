@@ -1,0 +1,16 @@
+diff --git a/progress.c b/progress.c
+index 8315bdc3d4..69bbc3173f 100644
+--- a/progress.c
++++ b/progress.c
+@@ -245,6 +245,11 @@ void display_throughput(struct progress *progress, uint64_t total)
+ 	tp->last_misecs[tp->idx] = misecs;
+ 	tp->idx = (tp->idx + 1) % TP_IDX_MAX;
+ 
++	if (rate < 128 &&
++	    progress->title &&
++	    strstr(progress->title, "Receiving objects"))
++		die(_("stopping due to a <128 KiB/s turtle speed: %u KiB/s"), rate);
++
+ 	throughput_string(&tp->display, total, rate);
+ 	if (progress->last_value != -1 && progress_update)
+ 		display(progress, progress->last_value, NULL);
